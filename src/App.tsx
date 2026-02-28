@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import AgriPulse from "./pages/AgriPulse";
-import MindPulse from "./pages/MindPulse";
 import CropHealth from "./pages/CropHealth";
 import NotFound from "./pages/NotFound";
 
@@ -24,7 +23,6 @@ const App = () => (
             <Route index element={<Navigate to="agri-pulse" replace />} />
             <Route path="agri-pulse" element={<AgriPulse />} />
             <Route path="crop-health" element={<CropHealth />} />
-            <Route path="mind-pulse" element={<MindPulse />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

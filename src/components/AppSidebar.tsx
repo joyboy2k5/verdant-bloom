@@ -1,5 +1,5 @@
 import { useLocation, Link } from "react-router-dom";
-import { Sprout, Brain, Leaf, ScanLine } from "lucide-react";
+import { Sprout, Leaf, ScanLine } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -15,7 +15,6 @@ import {
 const navItems = [
   { title: "Agri-Pulse", url: "/dashboard/agri-pulse", icon: Sprout },
   { title: "Crop Health", url: "/dashboard/crop-health", icon: ScanLine },
-  { title: "Mind-Pulse", url: "/dashboard/mind-pulse", icon: Brain },
 ];
 
 export function AppSidebar() {
