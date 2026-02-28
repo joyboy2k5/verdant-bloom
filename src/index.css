@@ -1,96 +1,80 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Nunito+Sans:wght@300;400;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Botanical Watercolor Palette */
+    --background: 80 15% 95%;
+    --foreground: 150 30% 12%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 45 25% 93%;
+    --card-foreground: 150 30% 12%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 45 25% 93%;
+    --popover-foreground: 150 30% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 150 40% 22%;
+    --primary-foreground: 80 20% 95%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 160 25% 82%;
+    --secondary-foreground: 150 35% 15%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 120 12% 88%;
+    --muted-foreground: 150 15% 40%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 195 45% 72%;
+    --accent-foreground: 150 30% 12%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 55% 48%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 140 18% 78%;
+    --input: 140 18% 78%;
+    --ring: 150 40% 22%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Extended botanical tokens */
+    --forest: 150 40% 22%;
+    --forest-deep: 152 45% 14%;
+    --mint: 160 30% 85%;
+    --mint-soft: 158 25% 90%;
+    --sky-wash: 200 50% 82%;
+    --earth: 30 35% 38%;
+    --earth-light: 35 28% 72%;
+    --parchment: 42 30% 92%;
+    --ink: 150 25% 18%;
+    --ink-light: 150 15% 45%;
+    --bloom: 340 30% 65%;
+    --gold-wash: 42 55% 62%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-background: 150 35% 15%;
+    --sidebar-foreground: 80 20% 90%;
+    --sidebar-primary: 160 30% 85%;
+    --sidebar-primary-foreground: 150 35% 15%;
+    --sidebar-accent: 150 30% 22%;
+    --sidebar-accent-foreground: 80 20% 90%;
+    --sidebar-border: 150 25% 25%;
+    --sidebar-ring: 160 30% 85%;
 
-    --sidebar-primary: 240 5.9% 10%;
+    /* Gradients */
+    --gradient-forest: linear-gradient(135deg, hsl(150 40% 22%), hsl(160 30% 35%));
+    --gradient-watercolor: linear-gradient(180deg, hsl(200 50% 82% / 0.4), hsl(160 30% 85% / 0.3), hsl(42 30% 92% / 0.5));
+    --gradient-sky: linear-gradient(135deg, hsl(200 50% 82%), hsl(195 40% 88%));
+    --gradient-paper: linear-gradient(145deg, hsl(42 30% 92%), hsl(45 25% 88%));
 
-    --sidebar-primary-foreground: 0 0% 98%;
+    /* Shadows */
+    --shadow-botanical: 0 4px 20px -4px hsl(150 40% 22% / 0.15);
+    --shadow-paper: 0 2px 12px -2px hsl(30 35% 38% / 0.12), 0 1px 4px hsl(30 35% 38% / 0.08);
+    --shadow-ink: 0 8px 32px -8px hsl(150 25% 18% / 0.2);
 
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Typography */
+    --font-display: 'Cormorant Garamond', serif;
+    --font-body: 'Lora', serif;
+    --font-sans: 'Nunito Sans', sans-serif;
   }
 }
 
@@ -101,5 +85,173 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+  }
+}
+
+@layer components {
+  /* Deckled-edge paper card */
+  .paper-card {
+    @apply relative rounded-lg p-5;
+    background: linear-gradient(145deg, hsl(var(--parchment)), hsl(var(--card)));
+    box-shadow: var(--shadow-paper);
+    border: 1px solid hsl(var(--border) / 0.6);
+  }
+
+  .paper-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: url('/placeholder.svg') center / cover;
+    opacity: 0.03;
+    pointer-events: none;
+  }
+
+  /* Ink wash heading */
+  .ink-heading {
+    font-family: var(--font-display);
+    color: hsl(var(--ink));
+    letter-spacing: 0.02em;
+  }
+
+  /* Watercolor fill animation */
+  .watercolor-fill {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .watercolor-fill::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, hsl(var(--accent) / 0.5), hsl(var(--mint) / 0.3));
+    transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: inherit;
+  }
+
+  /* Botanical icon style */
+  .botanical-icon {
+    color: hsl(var(--ink-light));
+    stroke-width: 1.5;
+    filter: drop-shadow(0 1px 2px hsl(var(--ink) / 0.1));
+  }
+
+  /* Forest sidebar */
+  .forest-sidebar {
+    background: var(--gradient-forest);
+    border-right: 1px solid hsl(var(--sidebar-border));
+  }
+
+  /* Watercolor background */
+  .watercolor-bg {
+    background: var(--gradient-watercolor);
+    position: relative;
+  }
+
+  .watercolor-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    pointer-events: none;
+  }
+
+  /* Label style */
+  .ink-label {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: hsl(var(--ink-light));
+  }
+
+  /* Gauge / compass style */
+  .compass-gauge {
+    background: radial-gradient(circle, hsl(var(--parchment)) 40%, hsl(var(--mint-soft)) 100%);
+    border: 2px solid hsl(var(--border));
+    box-shadow: var(--shadow-botanical);
+  }
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+  }
+
+  .font-sans-body {
+    font-family: var(--font-sans);
+  }
+
+  .text-ink {
+    color: hsl(var(--ink));
+  }
+
+  .text-ink-light {
+    color: hsl(var(--ink-light));
+  }
+
+  .bg-parchment {
+    background-color: hsl(var(--parchment));
+  }
+
+  .bg-mint {
+    background-color: hsl(var(--mint));
+  }
+
+  .bg-mint-soft {
+    background-color: hsl(var(--mint-soft));
+  }
+
+  .bg-forest {
+    background-color: hsl(var(--forest));
+  }
+
+  .bg-forest-deep {
+    background-color: hsl(var(--forest-deep));
+  }
+
+  .bg-sky-wash {
+    background-color: hsl(var(--sky-wash));
+  }
+
+  .bg-earth-light {
+    background-color: hsl(var(--earth-light));
+  }
+
+  .text-bloom {
+    color: hsl(var(--bloom));
+  }
+
+  .text-gold {
+    color: hsl(var(--gold-wash));
+  }
+
+  .border-botanical {
+    border-color: hsl(var(--border) / 0.5);
+  }
+
+  .shadow-botanical {
+    box-shadow: var(--shadow-botanical);
+  }
+
+  .shadow-paper {
+    box-shadow: var(--shadow-paper);
+  }
+
+  .shadow-ink {
+    box-shadow: var(--shadow-ink);
   }
 }
