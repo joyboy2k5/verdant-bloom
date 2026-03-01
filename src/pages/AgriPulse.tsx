@@ -1,13 +1,15 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Droplets, Thermometer, FlaskConical, CloudSun, CloudRain, Sun, Wind, AlertTriangle, Leaf, Bug } from "lucide-react";
+import { Droplets, Thermometer, FlaskConical, CloudSun, CloudRain, Sun, Wind, Leaf, Bug, AlertTriangle } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 
-// Simulated sensor data
-const sensors = [
-  { label: "Soil Moisture", value: 68, unit: "%", icon: Droplets, fill: 68, color: "from-accent to-sky-wash" },
-  { label: "Temperature", value: 28, unit: "°C", icon: Thermometer, fill: 56, color: "from-gold-wash to-earth-light" },
-  { label: "Nitrogen (N)", value: 42, unit: "mg/kg", icon: FlaskConical, fill: 42, color: "from-forest to-mint" },
-  { label: "Phosphorus (P)", value: 35, unit: "mg/kg", icon: FlaskConical, fill: 35, color: "from-bloom to-earth-light" },
-  { label: "Potassium (K)", value: 55, unit: "mg/kg", icon: FlaskConical, fill: 55, color: "from-forest to-accent" },
+// Simulated sensor data (non-moisture)
+const staticSensors = [
+  { label: "Temperature", value: 28, unit: "°C", icon: Thermometer, fill: 56, color: "from-gold-wash to-earth-light", live: false },
+  { label: "Nitrogen (N)", value: 42, unit: "mg/kg", icon: FlaskConical, fill: 42, color: "from-forest to-mint", live: false },
+  { label: "Phosphorus (P)", value: 35, unit: "mg/kg", icon: FlaskConical, fill: 35, color: "from-bloom to-earth-light", live: false },
+  { label: "Potassium (K)", value: 55, unit: "mg/kg", icon: FlaskConical, fill: 55, color: "from-forest to-accent", live: false },
 ];
 
 const weather = [
@@ -33,32 +35,90 @@ const alerts = [
 ];
 
 const AgriPulse = () => {
+  const [moisture, setMoisture] = useState<number | null>(null);
+
+  useEffect(() => {
+    // Fetch latest moisture value
+    const fetchLatest = async () => {
+      const { data } = await supabase
+        .from("sensor_data")
+        .select("moisture")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (data) setMoisture(Number(data.moisture));
+    };
+    fetchLatest();
+
+    // Subscribe to realtime inserts
+    const channel = supabase
+      .channel("sensor_data_realtime")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "sensor_data" },
+        (payload) => {
+          setMoisture(Number(payload.new.moisture));
+        }
+      )
+      .subscribe();
+
+    return () => { supabase.removeChannel(channel); };
+  }, []);
+
+  const moistureFill = moisture !== null ? Math.min(100, (moisture / 4095) * 100) : 0;
+  const needsWater = moisture !== null && moisture > 3000;
+
+  const allSensors = [
+    {
+      label: "Soil Moisture",
+      value: moisture !== null ? moisture : "—",
+      unit: "raw",
+      icon: Droplets,
+      fill: moistureFill,
+      color: "from-accent to-sky-wash",
+      live: true,
+    },
+    ...staticSensors,
+  ];
+
   return (
     <div className="space-y-8 max-w-6xl">
       {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-      >
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
         <h1 className="ink-heading text-3xl md:text-4xl mb-1">Agri-Pulse</h1>
         <p className="font-sans text-sm text-muted-foreground">Smart farming insights · Real-time monitoring</p>
       </motion.div>
+
+      {/* Needs Water Alert */}
+      {needsWater && (
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+          <Alert className="paper-card border-l-4 border-l-bloom bg-bloom/10">
+            <AlertTriangle className="h-5 w-5 text-bloom" />
+            <AlertTitle className="font-display text-lg font-semibold text-ink">Needs Water!</AlertTitle>
+            <AlertDescription className="font-body text-sm text-muted-foreground">
+              Soil moisture is at <strong>{moisture}</strong> (above 3000 threshold). Irrigate immediately.
+            </AlertDescription>
+          </Alert>
+        </motion.div>
+      )}
 
       {/* Sensor Cards */}
       <section>
         <h2 className="ink-label mb-4">Live Sensors</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
-          {sensors.map((sensor, i) => (
+          {allSensors.map((sensor, i) => (
             <motion.div
               key={sensor.label}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.08, duration: 0.4 }}
-              className="paper-card flex flex-col items-center text-center"
+              className={`paper-card flex flex-col items-center text-center ${sensor.live ? "ring-2 ring-accent/40" : ""}`}
             >
               <sensor.icon className="w-6 h-6 botanical-icon mb-3" strokeWidth={1.5} />
-              <span className="ink-label mb-2">{sensor.label}</span>
+              <span className="ink-label mb-2">
+                {sensor.label}
+                {sensor.live && <span className="ml-1.5 inline-block w-2 h-2 rounded-full bg-accent animate-pulse" />}
+              </span>
 
               {/* Watercolor tank */}
               <div className="relative w-16 h-24 rounded-lg border border-border overflow-hidden bg-mint-soft/30 my-2">
