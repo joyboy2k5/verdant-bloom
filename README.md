@@ -80,11 +80,10 @@ The project aims to support smart farming practices by helping farmers make data
 
 ---
 
-## 👨‍💻 Developed By
-
-Karthik Dharmapuri
 ## HOW TO RUN
-in terminal run:- npm install
-then :-npm run dev
+in terminal run:-
+1)cd verdant-bloom
+2)npm install
+3)npm run dev
 
 
