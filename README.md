@@ -83,3 +83,8 @@ The project aims to support smart farming practices by helping farmers make data
 ## 👨‍💻 Developed By
 
 Karthik Dharmapuri
+## HOW TO RUN
+in terminal run:- npm install
+then :-npm run dev
+
+
